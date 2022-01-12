@@ -65,3 +65,8 @@ ul {
   font-weight: 300;
   background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
 }
+
+.author {
+  padding: 10px;
+  margin-left: 100px;
+}
