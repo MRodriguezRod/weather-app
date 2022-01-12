@@ -1,0 +1,67 @@
+body {
+  font-family: "Comfortaa", cursive;
+  color: #385170;
+  padding: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 15px;
+}
+
+.background {
+  border: none;
+  width: 75%;
+  height: 75%;
+}
+
+.search {
+  padding: 48px 0 30px;
+}
+
+.btn {
+  margin: 0 auto 40px;
+  background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
+  font-weight: lighter;
+  display: block;
+  border-color: rgba(128, 128, 128, 0.205);
+  padding: 5px 40px;
+  color: #385170 !important;
+}
+
+.current-city {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 62px;
+  text-align: center;
+  background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
+}
+
+.current-city-emoji {
+  font-size: 50px;
+  padding: 45px 0 0 0;
+}
+
+.date-time {
+  font-size: 12px;
+  opacity: 65%;
+}
+
+.weather-details {
+  font-size: 18px;
+  line-height: 30px;
+  font-size: 15px;
+  font-weight: 300;
+  background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
+}
+
+.forecast {
+  background: #f4f4f4;
+}
+
+.forecast-details {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 300;
+  background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
+}

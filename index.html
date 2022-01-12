@@ -3,10 +3,145 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=, initial-scale=1.0" />
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="src/styles.css" />
+    <script
+      src="https://kit.fontawesome.com/cd7e2bae9f.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <h1>abc</h1>
+    <div class="container">
+      <div class="background">
+        <div class="card h-100">
+          <img
+            class="card-img"
+            src="images/snow-adam-lukac.jpg"
+            alt="Snowy landscape"
+          />
+          <div class="card-img-overlay">
+            <div class="row">
+              <div class="col-8">
+                <form class="search" id="search">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search city..."
+                    autocomplete="off"
+                    autofocus="on"
+                    id="search-city-input"
+                  />
+                </form>
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  id="current-city-button"
+                >
+                  Current Location
+                </button>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="card h-100">
+                      <div class="card-body current-city">
+                        <i class="far fa-snowflake current-city-emoji"></i
+                        ><br />
+                        <span id="current-city"> <strong>Berlin</strong></span
+                        ><br /><span id="temperature">17</span>
+                        <a href="#" id="celsius">ºC</a> |
+                        <a href="#" id="fahrenheit">ºF</a>
+                        <div class="date-time" id="date-time">
+                          Tuesday, 00:31
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-6">
+                    <div class="card h-100">
+                      <div class="card-body weather-details">
+                        <ul>
+                          <li><strong>Humidity:</strong> 88%</li>
+                          <li><strong>Precipitation chance:</strong> 80%</li>
+                          <li><strong>Wind:</strong> 3 km/h</li>
+                          <li><strong>UV Index:</strong> Low</li>
+                          <li><strong>Sunrise:</strong> 08:05</li>
+                          <li><strong>Sunset</strong>: 15:53</li>
+                          <li><strong>Lunar phase:</strong> Waxing crescent</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="card">
+                  <div class="card-body forecast">
+                    <div class="card mb-3">
+                      <div class="card-body forecast-details">
+                        Fri&nbsp;&nbsp<i class="far fa-snowflake"></i
+                        >&nbsp;&nbsp1º/-3º
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                      <div class="card-body forecast-details">
+                        Sat&nbsp;&nbsp<i class="fas fa-cloud"></i
+                        >&nbsp;&nbsp1º/-1º
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                      <div class="card-body forecast-details">
+                        Sun&nbsp;&nbsp<i class="fas fa-cloud-rain"></i
+                        >&nbsp;&nbsp3º/2º
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                      <div class="card-body forecast-details">
+                        Mon&nbsp;&nbsp;<i class="fas fa-cloud"></i
+                        >&nbsp;&nbsp;4º/3º
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                      <div class="card-body forecast-details">
+                        Tue&nbsp;&nbsp<i class="fas fa-cloud"></i
+                        >&nbsp;&nbsp6º/4º
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                      <div class="card-body forecast-details">
+                        Wed&nbsp;&nbsp<i class="fas fa-cloud-rain"></i
+                        >&nbsp;&nbsp7º/6º
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                      <div class="card-body forecast-details">
+                        Thu&nbsp;&nbsp<i class="fas fa-cloud-rain"></i
+                        >&nbsp;&nbsp7º/4º
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="src/script.js"></script>
   </body>
 </html>
