@@ -33,8 +33,9 @@ ul {
 }
 
 .current-city {
-  font-size: 40px;
+  font-size: 35px;
   font-weight: 500;
+  text-transform: capitalize;
   line-height: 62px;
   text-align: center;
   background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
