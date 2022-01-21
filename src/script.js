@@ -1,5 +1,5 @@
 function formatDate(date) {
-  let currentDay = date.getDay();
+  let currentDay = currentCityDayRaw;
 
   let weekDays = [
     "Sunday",
@@ -54,6 +54,13 @@ function showWeatherDetails(response) {
   let sunsetMinutes = padTimeWithZero(sunsetFullValue.getMinutes());
   let sunsetTime = document.querySelector("#sunset");
   sunsetTime.innerHTML = `${sunsetHours}:${sunsetMinutes}`;
+
+  let dateFullValue = new Date(response.data.dt * 1000);
+  let currentCityDay = dateFullValue.getDay();
+  let currentCityHours = padTimeWithZero(dateFullValue.getHours());
+  let currentCityMinutes = padTimeWithZero(dateFullValue.getMinutes());
+  let currentCityDateTime = document.querySelector("#date-time");
+  currentCityDateTime.innerHTML = `${currentCityDay}, ${currentCityHours}:${currentCityMinutes}`;
 }
 
 function showTemperatureAndCity(response) {
@@ -87,10 +94,6 @@ function clickButton(event) {
 }
 
 let apiKey = `5bf5575e8c026f28007101c82f4f7882`;
-
-let date = new Date();
-let dateTime = document.querySelector("#date-time");
-dateTime.innerHTML = `${formatDate(date)}, ${formatTime(date)}`;
 
 let form = document.querySelector("#search");
 form.addEventListener("submit", searchCity);
