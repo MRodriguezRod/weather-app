@@ -30,17 +30,36 @@ function formatTime(date) {
   return `${currentHour}:${currentMinute}`;
 }
 
-function showTemperatureCelsius(response) {
-  let temperature = Math.round(response.data.main.temp);
+function showWeatherDetails(response) {
   let cityTemperature = document.querySelector("#temperature");
-  cityTemperature.innerHTML = `${temperature}`;
+  cityTemperature.innerHTML = Math.round(response.data.main.temp);
+
+  let feelsLike = document.querySelector("#feels-like");
+  feelsLike.innerHTML = Math.round(response.data.main.feels_like);
+
+  let humidity = document.querySelector("#humidity");
+  humidity.innerHTML = response.data.main.humidity;
+
+  let windSpeed = document.querySelector("#wind-speed");
+  windSpeed.innerHTML = Math.round(response.data.wind.speed * 3.6);
+
+  let sunriseFullValue = new Date(response.data.sys.sunrise * 1000);
+  let sunriseHours = padTimeWithZero(sunriseFullValue.getHours());
+  let sunriseMinutes = padTimeWithZero(sunriseFullValue.getMinutes());
+  let sunriseTime = document.querySelector("#sunrise");
+  sunriseTime.innerHTML = `${sunriseHours}:${sunriseMinutes}`;
+
+  let sunsetFullValue = new Date(response.data.sys.sunset * 1000);
+  let sunsetHours = padTimeWithZero(sunsetFullValue.getHours());
+  let sunsetMinutes = padTimeWithZero(sunsetFullValue.getMinutes());
+  let sunsetTime = document.querySelector("#sunset");
+  sunsetTime.innerHTML = `${sunsetHours}:${sunsetMinutes}`;
 }
 
 function showTemperatureAndCity(response) {
-  showTemperatureCelsius(response);
-  let city = response.data.name;
+  showWeatherDetails(response);
   let currentCity = document.querySelector("#current-city");
-  currentCity.innerHTML = `${city}`;
+  currentCity.innerHTML = response.data.name;
 }
 
 function searchCity(event) {
@@ -50,7 +69,8 @@ function searchCity(event) {
   currentCity.innerHTML = `${input.value}`;
   let city = input.value;
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(showTemperatureCelsius);
+  console.log(apiUrl);
+  axios.get(apiUrl).then(showWeatherDetails);
 }
 
 function getCurrentLocation(position) {
