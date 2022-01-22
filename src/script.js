@@ -1,20 +1,3 @@
-function formatDate(date) {
-  let currentDay = currentCityDayRaw;
-
-  let weekDays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  let weekDay = weekDays[currentDay];
-
-  return `${weekDay}`;
-}
-
 function padTimeWithZero(value) {
   if (value < 10) {
     return "0" + value;
@@ -30,54 +13,100 @@ function formatTime(date) {
   return `${currentHour}:${currentMinute}`;
 }
 
-function showWeatherDetails(response) {
+function showCityTemperature(response) {
   let cityTemperature = document.querySelector("#temperature");
   cityTemperature.innerHTML = Math.round(response.data.main.temp);
+}
 
+function showFeelsLike(response) {
   let feelsLike = document.querySelector("#feels-like");
   feelsLike.innerHTML = Math.round(response.data.main.feels_like);
+}
 
+function showHumidity(response) {
   let humidity = document.querySelector("#humidity");
   humidity.innerHTML = response.data.main.humidity;
+}
 
+function showWindSpeed(response) {
   let windSpeed = document.querySelector("#wind-speed");
   windSpeed.innerHTML = Math.round(response.data.wind.speed * 3.6);
+}
 
-  let sunriseFullValue = new Date(response.data.sys.sunrise * 1000);
-  let sunriseHours = padTimeWithZero(sunriseFullValue.getHours());
-  let sunriseMinutes = padTimeWithZero(sunriseFullValue.getMinutes());
+function showSunriseTime(response) {
+  let sunriseFullValue = new Date(
+    (response.data.sys.sunrise + response.data.timezone) * 1000
+  );
+  let sunriseHours = padTimeWithZero(sunriseFullValue.getUTCHours());
+  let sunriseMinutes = padTimeWithZero(sunriseFullValue.getUTCMinutes());
   let sunriseTime = document.querySelector("#sunrise");
   sunriseTime.innerHTML = `${sunriseHours}:${sunriseMinutes}`;
+}
 
-  let sunsetFullValue = new Date(response.data.sys.sunset * 1000);
-  let sunsetHours = padTimeWithZero(sunsetFullValue.getHours());
-  let sunsetMinutes = padTimeWithZero(sunsetFullValue.getMinutes());
+function showSunsetTime(response) {
+  let sunsetFullValue = new Date(
+    (response.data.sys.sunset + response.data.timezone) * 1000
+  );
+  let sunsetHours = padTimeWithZero(sunsetFullValue.getUTCHours());
+  let sunsetMinutes = padTimeWithZero(sunsetFullValue.getUTCMinutes());
   let sunsetTime = document.querySelector("#sunset");
   sunsetTime.innerHTML = `${sunsetHours}:${sunsetMinutes}`;
+}
 
+function showLastUpdateDateTime(response) {
   let dateFullValue = new Date(response.data.dt * 1000);
-  let currentCityDay = dateFullValue.getDay();
-  let currentCityHours = padTimeWithZero(dateFullValue.getHours());
-  let currentCityMinutes = padTimeWithZero(dateFullValue.getMinutes());
-  let currentCityDateTime = document.querySelector("#date-time");
-  currentCityDateTime.innerHTML = `${currentCityDay}, ${currentCityHours}:${currentCityMinutes}`;
+
+  console.log(response);
+
+  let currentDay = dateFullValue.getDay();
+
+  let weekDays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let weekDay = weekDays[currentDay];
+
+  let currentHours = padTimeWithZero(dateFullValue.getHours());
+  let currentMinutes = padTimeWithZero(dateFullValue.getMinutes());
+  let currentDateTime = document.querySelector("#date-time");
+  currentDateTime.innerHTML = `${weekDay}, ${currentHours}:${currentMinutes}`;
+}
+
+function showCurrentCityWeatherDetails(response) {
+  showCityTemperature(response);
+  showFeelsLike(response);
+  showHumidity(response);
+  showWindSpeed(response);
+  showSunriseTime(response);
+  showSunsetTime(response);
+  showLastUpdateDateTime(response);
 }
 
 function showTemperatureAndCity(response) {
-  showWeatherDetails(response);
+  showCurrentCityWeatherDetails(response);
   let currentCity = document.querySelector("#current-city");
   currentCity.innerHTML = response.data.name;
+  console.log(response.data.name);
 }
 
 function searchCity(event) {
   event.preventDefault();
   let input = document.querySelector("#search-city-input");
+  searchForWeatherIn(input.value);
+}
+
+function searchForWeatherIn(city) {
   let currentCity = document.querySelector("#current-city");
-  currentCity.innerHTML = `${input.value}`;
-  let city = input.value;
+  currentCity.innerHTML = city;
+
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
   console.log(apiUrl);
-  axios.get(apiUrl).then(showWeatherDetails);
+  axios.get(apiUrl).then(showCurrentCityWeatherDetails);
 }
 
 function getCurrentLocation(position) {
@@ -100,3 +129,5 @@ form.addEventListener("submit", searchCity);
 
 let currentCityButton = document.querySelector("#current-city-button");
 currentCityButton.addEventListener("click", clickButton);
+
+searchForWeatherIn("La Habana");
