@@ -13,8 +13,8 @@ ul {
 
 .background {
   border: none;
-  width: 70%;
-  height: 70%;
+  width: 72%;
+  height: 72%;
 }
 
 .search {
@@ -51,6 +51,18 @@ ul {
   font-size: 17px;
   line-height: normal;
   margin: 7px auto 15px;
+}
+
+.active {
+  color: #385170;
+  cursor: default;
+  text-decoration: none;
+}
+
+.active:hover {
+  color: #385170;
+  cursor: default;
+  text-decoration: none;
 }
 
 .date-time {
