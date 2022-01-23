@@ -77,7 +77,23 @@ function showLastUpdateDateTime(response) {
   currentDateTime.innerHTML = `${weekDay}, ${currentHours}:${currentMinutes}`;
 }
 
+function showWeatherDescription(response) {
+  let showWeatherDescription = document.querySelector("#weather-description");
+  showWeatherDescription.innerHTML = response.data.weather[0].description;
+}
+
+function changeWeatherIcon(response) {
+  let icon = document.querySelector("#weather-icon");
+  icon.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  icon.setAttribute("alt", response.data.weather[0].description);
+}
+
 function showCurrentCityWeatherDetails(response) {
+  changeWeatherIcon(response);
+  showWeatherDescription(response);
   showCityTemperature(response);
   showFeelsLike(response);
   showHumidity(response);
