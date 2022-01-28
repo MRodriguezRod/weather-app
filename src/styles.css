@@ -51,6 +51,7 @@ ul {
   font-size: 17px;
   line-height: normal;
   margin: 7px auto 15px;
+  opacity: 0.8;
 }
 
 .active {
@@ -72,17 +73,18 @@ ul {
 
 .weather-details,
 .forecast {
-  line-height: 30px;
+  line-height: 32px;
   font-size: 16px;
   font-weight: 300;
   background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
 }
 
-.forecast-details {
-  text-align: center;
-  font-size: 17px;
-  font-weight: 300;
-  background-image: linear-gradient(to top, #f4f4f4 10%, white 100%);
+.forecast {
+  padding-left: 49px;
+}
+
+.forecast-lower-temperature {
+  opacity: 0.6;
 }
 
 .author {

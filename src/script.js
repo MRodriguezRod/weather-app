@@ -12,6 +12,14 @@ function convertCelsiusToFahrenheit(celsius) {
   return fahrenheit;
 }
 
+function formatWeekdays(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getUTCDay();
+  let weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return weekdays[day];
+}
+
 function showTemperatureAndCity(response) {
   showCurrentCityWeatherDetails(response);
 
@@ -34,7 +42,7 @@ function searchForWeatherIn(city) {
   currentCity.innerHTML = city;
 
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
+  console.log(apiUrl);
   axios.get(apiUrl).then(showCurrentCityWeatherDetails);
 }
 
@@ -64,6 +72,7 @@ function showCurrentCityWeatherDetails(response) {
   showSunriseTime(response);
   showSunsetTime(response);
   showLastUpdateDateTime(response);
+  getForecast(response.data.coord);
 }
 
 function changeWeatherIcon(response) {
@@ -143,6 +152,12 @@ function showLastUpdateDateTime(response) {
   currentDateTime.innerHTML = `${weekDay}, ${currentHours}:${currentMinutes}`;
 }
 
+function getForecast(coordinates) {
+  let apiUrlForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  console.log(apiUrlForecast);
+  axios.get(apiUrlForecast).then(displayForecast);
+}
+
 function showFahrenheitTemperature(event) {
   event.preventDefault();
   let fahrenheitTemperature = convertCelsiusToFahrenheit(celsiusTemperature);
@@ -169,6 +184,36 @@ function showCelsiusTemperature(event) {
   cityTemperature.innerHTML = Math.round(celsiusTemperature);
   let feelsLike = document.querySelector("#feels-like");
   feelsLike.innerHTML = Math.round(feelsLikeTemperatureCelsius);
+}
+
+function displayForecast(response) {
+  let forecastDetails = response.data.daily;
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHtml = "";
+
+  forecastDetails.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHtml =
+        forecastHtml +
+        `<div class="forecast-element">
+                   <span id="forecast-day"><strong>${formatWeekdays(
+                     forecastDay.dt
+                   )}</strong></span>  
+                 <span id="forecastIcon"><img src="http://openweathermap.org/img/wn/${
+                   forecastDay.weather[0].icon
+                 }@2x.png" alt="{forecastDay.weather[0].description" width="36"</span>
+                   <span id="forecast-higher-temperature"> ${Math.round(
+                     forecastDay.temp.max
+                   )}&nbspº</span>
+                   <span class="forecast-lower-temperature">| ${Math.round(
+                     forecastDay.temp.min
+                   )}&nbspº</span>
+                    </div>
+                    `;
+    }
+
+    forecastElement.innerHTML = forecastHtml;
+  });
 }
 
 let apiKey = `5bf5575e8c026f28007101c82f4f7882`;
