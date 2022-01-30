@@ -73,6 +73,7 @@ function showCurrentCityWeatherDetails(response) {
   showSunsetTime(response);
   showLastUpdateDateTime(response);
   getForecast(response.data.coord);
+  changeBackground(response);
 }
 
 function changeWeatherIcon(response) {
@@ -97,7 +98,7 @@ function showCityTemperature(response) {
 function showFeelsLike(response) {
   let feelsLike = document.querySelector("#feels-like");
 
-  feelsLike.innerHTML = Math.round(response.data.main.feels_like);
+  feelsLike.innerHTML = `${Math.round(response.data.main.feels_like)} ºC`;
 }
 
 function showHumidity(response) {
@@ -152,6 +153,58 @@ function showLastUpdateDateTime(response) {
   currentDateTime.innerHTML = `${weekDay}, ${currentHours}:${currentMinutes}`;
 }
 
+function changeBackground(response) {
+  let iconCode = response.data.weather[0].icon;
+  background = document.querySelector("#background");
+
+  if (iconCode === "01d") {
+    background.src = `images/clearsky-brett-sayles-912364.jpg`;
+    background.alt = `Sunny`;
+  } else {
+    if (iconCode === "01n") {
+      background.src = `images/night-clear-pexels-drift-shutterbug-2085998.jpg`;
+      background.alt = `Clear sky night`;
+    } else {
+      if (
+        iconCode === "02d" ||
+        iconCode === "02n" ||
+        iconCode === "03d" ||
+        iconCode === "03n" ||
+        iconCode === "04d" ||
+        iconCode === "04n"
+      ) {
+        background.src = `images/clouds-miguel-a-padriñan-19670.jpg`;
+        background.alt = `Clouds`;
+      } else {
+        if (
+          iconCode === "09d" ||
+          iconCode === "09n" ||
+          iconCode === "10d" ||
+          iconCode === "10n"
+        ) {
+          background.src = `images/rain-johannes-plenio-2259232.jpg`;
+          background.alt = `Rain`;
+        } else {
+          if (iconCode === "11d" || iconCode === "11n") {
+            background.src = `images/storm-gerhard-6312434.jpg`;
+            background.alt = `Thunderstorm`;
+          } else {
+            if (iconCode === "13d" || iconCode === "13n") {
+              background.src = `images/snow-choice-6153987.jpg`;
+              background.alt = `Snow`;
+            } else {
+              if (iconCode === "50d" || iconCode === "50n") {
+                background.src = `images/mist-eberhard-grossgasteiger-1287075.jpg`;
+                background.alt = `Mist`;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 function getForecast(coordinates) {
   let apiUrlForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
   console.log(apiUrlForecast);
@@ -191,7 +244,7 @@ function showFahrenheitTemperature(event) {
     feelsLikeTemperatureCelsius
   );
   let feelsLike = document.querySelector("#feels-like");
-  feelsLike.innerHTML = Math.round(feelsLikeFahrenheit);
+  feelsLike.innerHTML = `${Math.round(feelsLikeFahrenheit)} ºF`;
 
   showFahrenheitForecast();
 }
@@ -214,12 +267,12 @@ function showFahrenheitForecast() {
                      convertCelsiusToFahrenheit(
                        forecastHigherTemperatureCelsius[index]
                      )
-                   )}</span>&nbspº<span class="separator"> |</span> 
+                   )}</span>&nbspºF<span class="separator"> |</span> 
                    <span class="forecast-lower-temperature" id="forecast-lower-temperature">${Math.round(
                      convertCelsiusToFahrenheit(
                        forecastLowerTemperatureCelsius[index]
                      )
-                   )}</span><span class="degrees">&nbspº</span>
+                   )}</span><span class="degrees">&nbspºF</span>
                     </div>
                     `;
   });
@@ -236,7 +289,7 @@ function showCelsiusTemperature(event) {
   let cityTemperature = document.querySelector("#temperature");
   cityTemperature.innerHTML = Math.round(celsiusTemperature);
   let feelsLike = document.querySelector("#feels-like");
-  feelsLike.innerHTML = Math.round(feelsLikeTemperatureCelsius);
+  feelsLike.innerHTML = `${Math.round(feelsLikeTemperatureCelsius)} ºC`;
 
   showCelsiusForecast();
 }
@@ -257,10 +310,10 @@ function showCelsiusForecast() {
                  }@2x.png" alt="{forecastDay.weather[0].description" width="36"</span>
                    <span id="forecast-higher-temperature"> ${Math.round(
                      forecastHigherTemperatureCelsius[index]
-                   )}</span>&nbspº<span class="separator"> |</span> 
+                   )}</span>&nbspºC<span class="separator"> |</span> 
                    <span class="forecast-lower-temperature" id="forecast-lower-temperature">${Math.round(
                      forecastLowerTemperatureCelsius[index]
-                   )}</span><span class="degrees">&nbspº</span>
+                   )}</span><span class="degrees">&nbspºC</span>
                     </div>
                     `;
   });
