@@ -35,8 +35,7 @@ ul {
 }
 
 .current-city {
-  font-size: 35px;
-  font-weight: 500;
+  font-size: 31px;
   text-transform: capitalize;
   line-height: 62px;
   text-align: center;
@@ -83,7 +82,9 @@ ul {
   padding-left: 49px;
 }
 
-.forecast-lower-temperature {
+.forecast-lower-temperature,
+.separator,
+.degrees {
   opacity: 0.6;
 }
 

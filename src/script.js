@@ -158,6 +158,26 @@ function getForecast(coordinates) {
   axios.get(apiUrlForecast).then(displayForecast);
 }
 
+function displayForecast(response) {
+  let forecastDetails = response.data.daily;
+
+  forecastHigherTemperatureCelsius = [];
+  forecastLowerTemperatureCelsius = [];
+  forecastDays = [];
+  forecastIcons = [];
+
+  forecastDetails.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHigherTemperatureCelsius.push(forecastDay.temp.max);
+      forecastLowerTemperatureCelsius.push(forecastDay.temp.min);
+      forecastIcons.push(forecastDay.weather[0].icon);
+      forecastDays.push(forecastDay.dt);
+    }
+  });
+
+  showCelsiusForecast();
+}
+
 function showFahrenheitTemperature(event) {
   event.preventDefault();
   let fahrenheitTemperature = convertCelsiusToFahrenheit(celsiusTemperature);
@@ -172,6 +192,39 @@ function showFahrenheitTemperature(event) {
   );
   let feelsLike = document.querySelector("#feels-like");
   feelsLike.innerHTML = Math.round(feelsLikeFahrenheit);
+
+  showFahrenheitForecast();
+}
+
+function showFahrenheitForecast() {
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHtml = "";
+
+  forecastDays.forEach(function (forecastDay, index) {
+    forecastHtml =
+      forecastHtml +
+      `<div class="forecast-element">
+                   <span id="forecast-day"><strong>${formatWeekdays(
+                     forecastDay
+                   )}</strong></span>  
+                 <span id="forecastIcon"><img src="http://openweathermap.org/img/wn/${
+                   forecastIcons[index]
+                 }@2x.png" alt="{forecastDay.weather[0].description" width="36"</span>
+                   <span id="forecast-higher-temperature"> ${Math.round(
+                     convertCelsiusToFahrenheit(
+                       forecastHigherTemperatureCelsius[index]
+                     )
+                   )}</span>&nbspº<span class="separator"> |</span> 
+                   <span class="forecast-lower-temperature" id="forecast-lower-temperature">${Math.round(
+                     convertCelsiusToFahrenheit(
+                       forecastLowerTemperatureCelsius[index]
+                     )
+                   )}</span><span class="degrees">&nbspº</span>
+                    </div>
+                    `;
+  });
+
+  forecastElement.innerHTML = forecastHtml;
 }
 
 function showCelsiusTemperature(event) {
@@ -184,36 +237,35 @@ function showCelsiusTemperature(event) {
   cityTemperature.innerHTML = Math.round(celsiusTemperature);
   let feelsLike = document.querySelector("#feels-like");
   feelsLike.innerHTML = Math.round(feelsLikeTemperatureCelsius);
+
+  showCelsiusForecast();
 }
 
-function displayForecast(response) {
-  let forecastDetails = response.data.daily;
+function showCelsiusForecast() {
   let forecastElement = document.querySelector("#forecast");
   let forecastHtml = "";
 
-  forecastDetails.forEach(function (forecastDay, index) {
-    if (index < 6) {
-      forecastHtml =
-        forecastHtml +
-        `<div class="forecast-element">
+  forecastDays.forEach(function (forecastDay, index) {
+    forecastHtml =
+      forecastHtml +
+      `<div class="forecast-element">
                    <span id="forecast-day"><strong>${formatWeekdays(
-                     forecastDay.dt
+                     forecastDay
                    )}</strong></span>  
                  <span id="forecastIcon"><img src="http://openweathermap.org/img/wn/${
-                   forecastDay.weather[0].icon
+                   forecastIcons[index]
                  }@2x.png" alt="{forecastDay.weather[0].description" width="36"</span>
                    <span id="forecast-higher-temperature"> ${Math.round(
-                     forecastDay.temp.max
-                   )}&nbspº</span>
-                   <span class="forecast-lower-temperature">| ${Math.round(
-                     forecastDay.temp.min
-                   )}&nbspº</span>
+                     forecastHigherTemperatureCelsius[index]
+                   )}</span>&nbspº<span class="separator"> |</span> 
+                   <span class="forecast-lower-temperature" id="forecast-lower-temperature">${Math.round(
+                     forecastLowerTemperatureCelsius[index]
+                   )}</span><span class="degrees">&nbspº</span>
                     </div>
                     `;
-    }
-
-    forecastElement.innerHTML = forecastHtml;
   });
+
+  forecastElement.innerHTML = forecastHtml;
 }
 
 let apiKey = `5bf5575e8c026f28007101c82f4f7882`;
@@ -226,6 +278,10 @@ currentCityButton.addEventListener("click", clickButton);
 
 let celsiusTemperature = null;
 let feelsLikeTemperatureCelsius = null;
+let forecastHigherTemperatureCelsius = null;
+let forecastLowerTemperatureCelsius = null;
+let forecastDays = null;
+let forecastIcons = null;
 
 let fahrenheit = document.querySelector("#fahrenheit");
 fahrenheit.addEventListener("click", showFahrenheitTemperature);
